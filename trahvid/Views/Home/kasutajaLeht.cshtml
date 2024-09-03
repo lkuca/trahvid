@@ -1,0 +1,55 @@
+﻿@model trahvid.Models.trahvide_eelvade
+
+@{
+    ViewBag.Title = "kasutajaleht";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+
+    <p>Sisesta nimi: @Html.TextBoxFor(x => x.Nimi, new { @id = "nimi" })</p>
+    <p>Sisesta Email: @Html.TextBoxFor(x => x.Email, new { @id = "email" })</p>
+    <p>Sisesta isikukood: @Html.TextBoxFor(x => x.isikukood, new { @id = "isikukood" })</p>
+    <p>Sisesta pin: @Html.TextBoxFor(x => x.pin, new { @id = "pin" })</p>
+
+    <input type="submit" value="Saada vastus" id="submit-button" />
+}
+
+<div id="popup" style="display:none; background-color: lightgray; border: 1px solid black; padding: 20px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <p id="popup-message"></p>
+    <button id="close-popup">Sulge</button>
+</div>
+
+@section Scripts {
+    <script>document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("submit-button").addEventListener("click", function (e) {
+                e.preventDefault(); // Предотвращаем отправку формы
+
+                // Получаем значения полей
+                var nimi = document.getElementById("nimi").value.trim();
+                var email = document.getElementById("email").value.trim();
+                var isikukood = document.getElementById("isikukood").value.trim();
+                var pin = document.getElementById("pin").value.trim();
+
+                // Состояние попапа
+                var popupMessage = document.getElementById("popup-message");
+
+                // Проверяем заполненность полей
+                if (nimi === "" || email === "" || isikukood === "" || pin === "") {
+                    popupMessage.textContent = "Andmed ei saadud, kontrolige et kõik oli täis";
+                } else {
+                    popupMessage.textContent = "Teie andmed on saadetud!";
+                    // Если нужно отправить форму, можно добавить отправку здесь
+                    // document.querySelector("form").submit();
+                }
+
+                // Показываем попап
+                document.getElementById("popup").style.display = "block";
+            });
+
+            document.getElementById("close-popup").addEventListener("click", function () {
+                document.getElementById("popup").style.display = "none";
+            });
+        });</script>
+}
